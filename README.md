@@ -1,0 +1,2 @@
+# VinnyRengaPlugin
+Adapter for Renga
