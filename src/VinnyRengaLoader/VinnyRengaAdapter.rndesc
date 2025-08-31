@@ -4,6 +4,6 @@
     <Copyright>GeorgGrebenyuk</Copyright>
     <RequiredAPIVersion>2.40</RequiredAPIVersion>
     <PluginType>Net8</PluginType>
-    <PluginFilename>C:\Users\Georg\Documents\GitHub\VinnyLibBin\Debug\plugins\renga\VinnyRengaAdapter.dll</PluginFilename>
+    <PluginFilename>C:\Users\Georg\Documents\GitHub\VinnyLibBin\Debug\plugins\renga\VinnyRengaLoader.dll</PluginFilename>
     <Vendor>-</Vendor>
 </RengaPlugin>

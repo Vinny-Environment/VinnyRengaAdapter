@@ -6,14 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using Renga;
 
-namespace VinnyRengaAdapter
+namespace VinnyRengaLoader
 {
     public class PluginLoader : IPlugin
     {
         private readonly List<Renga.ActionEventSource> m_eventSources = new List<Renga.ActionEventSource>();
         public bool Initialize(string pluginFolder)
         {
-            
             string executingAssemblyFile = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath;
             string executionDirectoryPath = System.IO.Path.GetDirectoryName(executingAssemblyFile);
 
@@ -22,36 +21,30 @@ namespace VinnyRengaAdapter
             string VinnyLibConverterCommonPath = Path.Combine(vinnyPath, "VinnyLibConverterCommon.dll");
             string VinnyLibConverterKernelPath = Path.Combine(vinnyPath, "VinnyLibConverterKernel.dll");
 
-            /*
+            string VinnyLibConverterUIPath = Path.Combine(vinnyPath, "ui", "net8.0-windows", "VinnyLibConverterUI.dll");
+
             Assembly.LoadFrom(VinnyLibConverterCommonPath);
             Assembly.LoadFrom(VinnyLibConverterKernelPath);
-
-            mVinnyAdapter = new VinnyRengaAdapter();
-            */
+            Assembly.LoadFrom(VinnyLibConverterUIPath);
 
             Renga.Application rengaApp = new Renga.Application();
             Renga.IUI rengaUI = rengaApp.UI;
             Renga.IUIPanelExtension vinnyRengaUiPanel = rengaUI.CreateUIPanelExtension();
 
             Renga.IAction vinnyRengaAdapterButton = rengaUI.CreateAction();
-            vinnyRengaAdapterButton.ToolTip = "Запустить окно VinnyLibConverter";
+            vinnyRengaAdapterButton.ToolTip = "Vinny Run";
             vinnyRengaAdapterButton.DisplayName = "Vinny Run";
 
-            //Renga.IImage vinnyRengaAdapterButtonIcon = rengaUI.CreateImage();
-            //vinnyRengaAdapterButtonIcon.LoadFromFile(Path.Combine(executionDirectoryPath, "vinnyIcon_32x32.png"));
-            //vinnyRengaAdapterButton.Icon = vinnyRengaAdapterButtonIcon;
+            Renga.IImage vinnyRengaAdapterButtonIcon = rengaUI.CreateImage();
+            vinnyRengaAdapterButtonIcon.LoadFromFile(Path.Combine(executionDirectoryPath, "vinnyIcon_32x32.png"));
+            vinnyRengaAdapterButton.Icon = vinnyRengaAdapterButtonIcon;
 
-            
             ActionEventSource vinnyRengaAdapterActionEvent = new ActionEventSource(vinnyRengaAdapterButton);
             vinnyRengaAdapterActionEvent.Triggered += (o, s) =>
             {
-                //VinnyLibConverterUI.VLC_UI_MainWindow vinnyWindow = new VinnyLibConverterUI.VLC_UI_MainWindow(false);
-                //WindowInteropHelper win = new WindowInteropHelper(vinnyWindow);
-                //win.Owner = rengaApp.GetMainWindowHandle();
-                //if (vinnyWindow.ShowDialog() == true)
-                //{
-                //    mVinnyAdapter.ExportTo(mVinnyAdapter.CreateData(), vinnyWindow.VinnyParametets);
-                //}
+                string VinnyRengaAdapterPath = Path.Combine(executionDirectoryPath, "VinnyRengaAdapter.dll");
+                var ass = Assembly.LoadFrom(VinnyRengaAdapterPath);
+                VinnyRengaAdapter.VinnyRengaAdapter.CreateInstance().Start();
             };
             m_eventSources.Add(vinnyRengaAdapterActionEvent);
 
@@ -69,7 +62,5 @@ namespace VinnyRengaAdapter
             }
             m_eventSources.Clear();
         }
-
-        private VinnyRengaAdapter mVinnyAdapter;
     }
 }

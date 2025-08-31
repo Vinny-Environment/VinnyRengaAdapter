@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <OutDir>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutDir>
+      <TargetFramework>net8.0-windows</TargetFramework>
+      <UseWPF>true</UseWPF>
+      <PlatformTarget>x64</PlatformTarget>
+      <Platforms>x64</Platforms>
+      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+      <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+      <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+     <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VinnyRengaAdapter\VinnyRengaAdapter.csproj">
+      <Private>False</Private>
+      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+  </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Renga.NET8.PluginUtility">
+            <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
+            <Private>True</Private>
+            <EmbedInteropTypes>False</EmbedInteropTypes>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="vinnyIcon_32x32.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="VinnyRengaAdapter.rndesc">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

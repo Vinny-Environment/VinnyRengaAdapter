@@ -1,26 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-      <OutDir>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutDir>
-      <TargetFramework>net8.0-windows</TargetFramework>
-      <UseWPF>true</UseWPF>
-      <PlatformTarget>x64</PlatformTarget>
-      <Platforms>x64</Platforms>
-  </PropertyGroup>
-
-  <ItemGroup>
-     <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
-  </ItemGroup>
+    <PropertyGroup>
+        <OutDir>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutDir>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <PlatformTarget>x64</PlatformTarget>
+        <Platforms>x64</Platforms>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
+    </PropertyGroup>
 
     <ItemGroup>
-        <!--<ProjectReference Include="$(SolutionDir)..\VinnyLibConverter\src\VinnyLibConverterCommon\VinnyLibConverterCommon.csproj">
-            <Private>False</Private>
-            <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-        </ProjectReference>
-        <ProjectReference Include="$(SolutionDir)..\VinnyLibConverter\src\VinnyLibConverterUI\VinnyLibConverterUI.csproj">
-            <Private>False</Private>
-            <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-        </ProjectReference>-->
+        <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="Renga.NET8.PluginUtility">
             <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
             <Private>True</Private>
@@ -41,16 +36,13 @@
             <Private>False</Private>
             <EmbedInteropTypes>False</EmbedInteropTypes>
         </Reference>
-        
+
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="vinnyIcon_32x32.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VinnyRengaAdapter.rndesc">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="VinnyRengaAdapter.rndesc">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
