@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Renga St 8.8": {
+      "commandName": "Executable",
+      "executablePath": "D:\\Soft\\RengaStandard\\Renga.exe",
+      "nativeDebugging": true
+    }
+  }
+}

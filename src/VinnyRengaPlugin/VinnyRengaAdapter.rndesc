@@ -1,0 +1,9 @@
+<RengaPlugin>
+    <Name>VinnyLibConverter for Renga</Name>
+    <Version>1.0</Version>
+    <Copyright>GeorgGrebenyuk</Copyright>
+    <RequiredAPIVersion>2.40</RequiredAPIVersion>
+    <PluginType>Net8</PluginType>
+    <PluginFilename>C:\Users\Georg\Documents\GitHub\VinnyLibBin\Debug\plugins\renga\VinnyRengaAdapter.dll</PluginFilename>
+    <Vendor>-</Vendor>
+</RengaPlugin>
