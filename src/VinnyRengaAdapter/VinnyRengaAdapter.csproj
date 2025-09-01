@@ -15,6 +15,8 @@
         <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
     </ItemGroup>
 
+    
+
     <ItemGroup>
         <Reference Include="Renga.NET8.PluginUtility">
             <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>

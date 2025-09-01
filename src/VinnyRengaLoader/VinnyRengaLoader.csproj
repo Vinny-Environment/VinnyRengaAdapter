@@ -11,9 +11,9 @@
       <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-     <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
-  </ItemGroup>
+    <ItemGroup>
+        <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
+    </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VinnyRengaAdapter\VinnyRengaAdapter.csproj">

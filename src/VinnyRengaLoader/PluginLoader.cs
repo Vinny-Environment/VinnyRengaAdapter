@@ -20,12 +20,14 @@ namespace VinnyRengaLoader
             string vinnyPath = new DirectoryInfo(executionDirectoryPath).Parent.Parent.FullName;
             string VinnyLibConverterCommonPath = Path.Combine(vinnyPath, "VinnyLibConverterCommon.dll");
             string VinnyLibConverterKernelPath = Path.Combine(vinnyPath, "VinnyLibConverterKernel.dll");
+            string VinnyRengaAdapterPath = Path.Combine(executionDirectoryPath, "VinnyRengaAdapter.dll");
 
             string VinnyLibConverterUIPath = Path.Combine(vinnyPath, "ui", "net8.0-windows", "VinnyLibConverterUI.dll");
 
             Assembly.LoadFrom(VinnyLibConverterCommonPath);
             Assembly.LoadFrom(VinnyLibConverterKernelPath);
             Assembly.LoadFrom(VinnyLibConverterUIPath);
+            Assembly.LoadFrom(VinnyRengaAdapterPath);
 
             Renga.Application rengaApp = new Renga.Application();
             Renga.IUI rengaUI = rengaApp.UI;
@@ -42,8 +44,6 @@ namespace VinnyRengaLoader
             ActionEventSource vinnyRengaAdapterActionEvent = new ActionEventSource(vinnyRengaAdapterButton);
             vinnyRengaAdapterActionEvent.Triggered += (o, s) =>
             {
-                string VinnyRengaAdapterPath = Path.Combine(executionDirectoryPath, "VinnyRengaAdapter.dll");
-                var ass = Assembly.LoadFrom(VinnyRengaAdapterPath);
                 VinnyRengaAdapter.VinnyRengaAdapter.CreateInstance().Start();
             };
             m_eventSources.Add(vinnyRengaAdapterActionEvent);
