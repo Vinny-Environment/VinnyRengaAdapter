@@ -10,7 +10,6 @@ using VinnyLibConverterCommon.Interfaces;
 using VinnyLibConverterCommon.VinnyLibDataStructure;
 using VinnyLibConverterCommon;
 using static VinnyRengaAdapter.VinnyRengaUtils;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 
 
@@ -50,12 +49,10 @@ namespace VinnyRengaAdapter
             var timer = new Stopwatch();
             timer.Start();
             VinnyLibConverterUI.VLC_UI_MainWindow vinnyWindow = new VinnyLibConverterUI.VLC_UI_MainWindow(false);
-            //WindowInteropHelper win = new WindowInteropHelper(vinnyWindow);
-            //win.Owner = rengaApp.GetMainWindowHandle();
             VinnyLibConverterCommon.ImportExportParameters parameters = new ImportExportParameters();
 
 #if DEBUG
-            parameters = VinnyLibConverterCommon.ImportExportParameters.LoadFromFile(@"E:\Temp\Vinny\rengaTestParams2.XML");
+            parameters = VinnyLibConverterCommon.ImportExportParameters.LoadFromFile(@"E:\Temp\Vinny\rengaTestParams1.XML");
 #endif
             //if (vinnyWindow.ShowDialog() == true) parameters = vinnyWindow.VinnyParametets;
             ExportTo(CreateData(), parameters);
@@ -263,7 +260,7 @@ namespace VinnyRengaAdapter
 
                                 int materialIndex = GetMaterial(rengaObject, out isFind, rengaMeshCounter, gridType);
 
-                                VinnyLibDataStructureGeometryMesh vinnyGeometryMesh = VinnyLibDataStructureGeometryMesh.asType(mVinnyModelDef.GeometrtyManager.GetGeometryById(mVinnyModelDef.GeometrtyManager.CreateGeometry(VinnyLibDataStructureGeometryType.Mesh)));
+                                VinnyLibDataStructureGeometryMesh vinnyGeometryMesh = VinnyLibDataStructureGeometryMesh.asType(mVinnyModelDef.GeometrtyManager.GetMeshGeometryById(mVinnyModelDef.GeometrtyManager.CreateGeometry(VinnyLibDataStructureGeometryType.Mesh)));
                                 vinnyGeometryMesh.MaterialId = materialIndex;
 
                                 for (int rengaVertexCounter = 0; rengaVertexCounter < grid.VertexCount; rengaVertexCounter++)
@@ -281,7 +278,7 @@ namespace VinnyRengaAdapter
                                 //gridPointsCount += grid.VertexCount;
                                 //gridFacesCount += grid.TriangleCount;
 
-                                mVinnyModelDef.GeometrtyManager.SetGeometry(vinnyGeometryMesh.Id, vinnyGeometryMesh);
+                                mVinnyModelDef.GeometrtyManager.SetMeshGeometry(vinnyGeometryMesh.Id, vinnyGeometryMesh);
                                 int vinnyGeometryMeshPIid = mVinnyModelDef.GeometrtyManager.CreateGeometryPlacementInfo(vinnyGeometryMesh.Id);
 
                                 vinnyObject.GeometryPlacementInfoIds.Add(vinnyGeometryMeshPIid);
