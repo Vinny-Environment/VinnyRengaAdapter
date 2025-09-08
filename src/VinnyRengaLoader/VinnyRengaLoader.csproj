@@ -1,42 +1,169 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-      <OutDir>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutDir>
-      <TargetFramework>net8.0-windows</TargetFramework>
-      <UseWPF>true</UseWPF>
-      <PlatformTarget>x64</PlatformTarget>
-      <Platforms>x64</Platforms>
-      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-      <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-      <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+        <PlatformTarget>x64</PlatformTarget>
+        <Platforms>x64</Platforms>
+        <OutputPath>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutputPath>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
 
     <ItemGroup>
         <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
     </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\VinnyRengaAdapter\VinnyRengaAdapter.csproj">
-      <Private>False</Private>
-      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
-  </ItemGroup>
+    <Choose>
+        <When Condition=" '$(TargetFramework)' == 'net48'">
+            <ItemGroup>
+                <Reference Include="Renga.NET.PluginUtility">
+                    <HintPath>$(SolutionDir)external\Renga.NET.PluginUtility.dll</HintPath>
+                    <Private>True</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+            </ItemGroup>
+            <PropertyGroup>
+				<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+            </PropertyGroup>
+        </When>
+        <When Condition=" '$(TargetFramework)' == 'net8.0-windows'">
+            <ItemGroup>
+                <Reference Include="Renga.NET8.PluginUtility">
+                    <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
+                    <Private>True</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+            </ItemGroup>
+        </When>
+    </Choose>
 
     <ItemGroup>
-        <Reference Include="Renga.NET8.PluginUtility">
-            <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
-            <Private>True</Private>
-            <EmbedInteropTypes>False</EmbedInteropTypes>
-        </Reference>
+      <ProjectReference Include="..\VinnyRengaAdapter\VinnyRengaAdapter.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <None Update="vinnyIcon_32x32.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="VinnyRengaAdapter.rndesc">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <None Update="VinnyRengaAdapter8.rndesc">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
+      <None Update="VinnyRengaAdapter.rndesc">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="if '$(TargetFramework)' == 'net48' copy $(ProjectDir)VinnyRengaAdapter.rndesc $(TargetDir)&#xD;&#xA;if '$(TargetFramework)' == 'net8.0-windows' copy $(ProjectDir)VinnyRengaAdapter8.rndesc $(TargetDir)VinnyRengaAdapter.rndesc" />
+    </Target>
+
+    <ItemGroup>
+      <Reference Update="PresentationFramework">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="PresentationCore">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Core">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Data">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Drawing">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.IO.Compression.FileSystem">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Numerics">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Runtime.Serialization">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Windows.Controls.Ribbon">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Xaml">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Xml">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="System.Xml.Linq">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="UIAutomationClient">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="UIAutomationClientSideProviders">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="UIAutomationProvider">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="UIAutomationTypes">
+        <Private>True</Private>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Update="WindowsBase">
+        <Private>True</Private>
+      </Reference>
     </ItemGroup>
 
 </Project>

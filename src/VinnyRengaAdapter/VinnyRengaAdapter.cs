@@ -222,7 +222,7 @@ namespace VinnyRengaAdapter
                 else nonLevelsObjects.Add(rengaObject);
             }
 
-            level2Objects = level2Objects.OrderBy(a=>a.Key).ToDictionary();
+            level2Objects = level2Objects.OrderBy(a=>a.Key).ToDictionary(t=> t.Key, t => t.Value);
             level2Objects.Add(new RengaLevelInfo() { Name = "Прочие объекты" }, nonLevelsObjects);
 
             foreach (var levelObjectsCollection in level2Objects)
@@ -234,7 +234,7 @@ namespace VinnyRengaAdapter
 
                 foreach (Renga.IModelObject rengaObject in levelObjectsCollection.Value)
                 {
-                    VinnyLibDataStructureObject vinnyObject = mVinnyModelDef.ObjectsManager.Objects[mVinnyModelDef.ObjectsManager.CreateObject()];
+                    VinnyLibDataStructureObject vinnyObject = mVinnyModelDef.ObjectsManager.GetObjectById(mVinnyModelDef.ObjectsManager.CreateObject());
                     vinnyObject.Name = rengaObject.Name;
                     vinnyObject.UniqueId = rengaObject.UniqueIdS;
                     ProcessRengaModelObjectProps(rengaObject, vinnyObject);

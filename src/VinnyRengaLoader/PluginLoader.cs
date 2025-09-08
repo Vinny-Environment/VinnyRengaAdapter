@@ -17,7 +17,7 @@ namespace VinnyRengaLoader
             string executionDirectoryPath = System.IO.Path.GetDirectoryName(executingAssemblyFile);
 
             //Load Vinny
-            string vinnyPath = new DirectoryInfo(executionDirectoryPath).Parent.Parent.FullName;
+            string vinnyPath = new DirectoryInfo(executionDirectoryPath).Parent.Parent.Parent.FullName;
             string VinnyLibConverterCommonPath = Path.Combine(vinnyPath, "VinnyLibConverterCommon.dll");
             string VinnyLibConverterKernelPath = Path.Combine(vinnyPath, "VinnyLibConverterKernel.dll");
             string VinnyRengaAdapterPath = Path.Combine(executionDirectoryPath, "VinnyRengaAdapter.dll");
