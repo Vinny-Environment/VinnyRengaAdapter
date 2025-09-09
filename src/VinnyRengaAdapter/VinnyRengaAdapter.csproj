@@ -1,35 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutDir>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutDir>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
         <UseWPF>true</UseWPF>
         <PlatformTarget>x64</PlatformTarget>
         <Platforms>x64</Platforms>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-        <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
+        <OutputPath>$(SolutionDir)..\VinnyLibBin\$(Configuration)\plugins\renga</OutputPath>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
         <COMFileReference Include="$(SolutionDir)external\RengaCOMAPI.tlb"></COMFileReference>
     </ItemGroup>
 
-    
-
     <ItemGroup>
-        <Reference Include="Renga.NET8.PluginUtility">
-            <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
-            <Private>True</Private>
-            <EmbedInteropTypes>False</EmbedInteropTypes>
-        </Reference>
         <Reference Include="VinnyLibConverterCommon">
             <HintPath>$(SolutionDir)..\VinnyLibBin\$(Configuration)\VinnyLibConverterCommon.dll</HintPath>
-            <Private>False</Private>
-            <EmbedInteropTypes>False</EmbedInteropTypes>
-        </Reference>
-        <Reference Include="VinnyLibConverterUI">
-            <HintPath>$(SolutionDir)..\VinnyLibBin\$(Configuration)\ui\net8.0-windows\VinnyLibConverterUI.dll</HintPath>
             <Private>False</Private>
             <EmbedInteropTypes>False</EmbedInteropTypes>
         </Reference>
@@ -40,6 +27,46 @@
         </Reference>
 
     </ItemGroup>
+
+    
+
+    <Choose>
+        <When Condition=" '$(TargetFramework)' == 'net48'">
+            <ItemGroup>
+                <Reference Include="Renga.NET.PluginUtility">
+                    <HintPath>$(SolutionDir)external\Renga.NET.PluginUtility.dll</HintPath>
+                    <Private>True</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+                <Reference Include="VinnyLibConverterUI">
+                    <HintPath>$(SolutionDir)..\VinnyLibBin\Debug\ui\net48\VinnyLibConverterUI.dll</HintPath>
+                    <Private>False</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+            </ItemGroup>
+            <PropertyGroup>
+                <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+            </PropertyGroup>
+        </When>
+        <When Condition=" '$(TargetFramework)' == 'net8.0-windows'">
+            <ItemGroup>
+                <Reference Include="Renga.NET8.PluginUtility">
+                    <HintPath>$(SolutionDir)external\Renga.NET8.PluginUtility.dll</HintPath>
+                    <Private>True</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+                <Reference Include="VinnyLibConverterUI">
+                    <HintPath>$(SolutionDir)..\VinnyLibBin\Debug\ui\net8.0-windows\VinnyLibConverterUI.dll</HintPath>
+                    <Private>False</Private>
+                    <EmbedInteropTypes>False</EmbedInteropTypes>
+                </Reference>
+            </ItemGroup>
+        </When>
+    </Choose>
+
+    
+
+
 
     <ItemGroup>
         <None Update="VinnyRengaAdapter.rndesc">
