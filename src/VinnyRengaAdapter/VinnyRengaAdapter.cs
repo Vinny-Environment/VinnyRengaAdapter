@@ -20,6 +20,8 @@ namespace VinnyRengaAdapter
         public string Name { get; set; }
         public double Elevation { get; set; }
 
+        public int RengaModelObjectId { get; set; }
+
         public const double nonLevelElevation = 1000000000000;
 
         public RengaLevelInfo()
@@ -133,38 +135,58 @@ namespace VinnyRengaAdapter
             mVinnyModelDef.Header.Parameters.Add(SetUniqueIdParam(rengaProjectInfo.UniqueIdS));
 
             ProcessRengaProperties(rengaProjectInfo.GetProperties(), mVinnyModelDef.Header);
+        }
 
-            //Метаданные участка
-            Renga.ILandPlotInfo rengaProjectLandPlotInfo = rengaProject.LandPlotInfo;
+        private int SetRengaSite(Renga.ILandPlotInfo rengaProjectLandPlotInfo)
+        {
+            VinnyLibDataStructureObject vinnySiteObject = mVinnyModelDef.ObjectsManager.GetObjectById(mVinnyModelDef.ObjectsManager.CreateObject());
+            vinnySiteObject.Name = rengaProjectLandPlotInfo.Name;
+
             string rengaProjectLandPlotInfoCat = "Renga Land Info";
             string rengaProjectLandAddressCat = "Renga Land Address";
 
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandName", rengaProjectLandPlotInfo.Name, rengaProjectLandPlotInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandDescription", rengaProjectLandPlotInfo.Description, rengaProjectLandPlotInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandNumber", rengaProjectLandPlotInfo.Number, rengaProjectLandPlotInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(SetUniqueIdParam(rengaProjectLandPlotInfo.UniqueIdS));
-            ProcessRengaProperties(rengaProjectLandPlotInfo.GetProperties(), mVinnyModelDef.Header);
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandName", rengaProjectLandPlotInfo.Name, rengaProjectLandPlotInfoCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandDescription", rengaProjectLandPlotInfo.Description, rengaProjectLandPlotInfoCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandNumber", rengaProjectLandPlotInfo.Number, rengaProjectLandPlotInfoCat));
+            vinnySiteObject.Parameters.Add(SetUniqueIdParam(rengaProjectLandPlotInfo.UniqueIdS));
+            ProcessRengaProperties(rengaProjectLandPlotInfo.GetProperties(), vinnySiteObject);
             // адрес
             Renga.IPostalAddress rengaProjectLandPlotInfo_Address = rengaProjectLandPlotInfo.GetAddress();
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressRegion", rengaProjectLandPlotInfo_Address.Region, rengaProjectLandAddressCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressTown", rengaProjectLandPlotInfo_Address.Town, rengaProjectLandAddressCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressAddressee", rengaProjectLandPlotInfo_Address.Addressee, rengaProjectLandAddressCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressPostalBox", rengaProjectLandPlotInfo_Address.PostalBox, rengaProjectLandAddressCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressCountry", rengaProjectLandPlotInfo_Address.Country, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressRegion", rengaProjectLandPlotInfo_Address.Region, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressTown", rengaProjectLandPlotInfo_Address.Town, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressAddressee", rengaProjectLandPlotInfo_Address.Addressee, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressPostalBox", rengaProjectLandPlotInfo_Address.PostalBox, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressCountry", rengaProjectLandPlotInfo_Address.Country, rengaProjectLandAddressCat));
             string addressLinesData = "";
             if (rengaProjectLandPlotInfo_Address.AddressLines.Cast<string>().Any()) addressLinesData = string.Join(";", rengaProjectLandPlotInfo_Address.AddressLines.Cast<string>().ToArray());
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressAddressLines", addressLinesData, rengaProjectLandAddressCat));
+            vinnySiteObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLandAddressAddressLines", addressLinesData, rengaProjectLandAddressCat));
 
-            //Метаданные здания
-            Renga.IBuildingInfo rengaProjectBuildingInfo = rengaProject.BuildingInfo;
-            string rengaProjectBuildingInfoCat = "Renga Building Info";
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoName", rengaProjectBuildingInfo.Name, rengaProjectBuildingInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoDescription", rengaProjectBuildingInfo.Description, rengaProjectBuildingInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoNumber", rengaProjectBuildingInfo.Number, rengaProjectBuildingInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoId", rengaProjectBuildingInfo.Id, rengaProjectBuildingInfoCat));
-            mVinnyModelDef.Header.Parameters.Add(SetUniqueIdParam(rengaProjectBuildingInfo.UniqueIdS));
-            ProcessRengaProperties(rengaProjectBuildingInfo.GetProperties(), mVinnyModelDef.Header);
+            mVinnyModelDef.ObjectsManager.SetObject(vinnySiteObject.Id, vinnySiteObject);
+
+            return vinnySiteObject.Id;
         }
+
+        private int SetRengaBuilding(Renga.IBuildingInfo rengaProjectBuildingInfo, int vinnyRengaSiteId)
+        {
+            VinnyLibDataStructureObject vinnyBuildingObject = mVinnyModelDef.ObjectsManager.GetObjectById(mVinnyModelDef.ObjectsManager.CreateObject());
+            vinnyBuildingObject.Name = rengaProjectBuildingInfo.Name;
+            vinnyBuildingObject.ParentId = vinnyRengaSiteId;
+
+
+            string rengaProjectBuildingInfoCat = "Renga Building Info";
+            vinnyBuildingObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoName", rengaProjectBuildingInfo.Name, rengaProjectBuildingInfoCat));
+            vinnyBuildingObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoDescription", rengaProjectBuildingInfo.Description, rengaProjectBuildingInfoCat));
+            vinnyBuildingObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoNumber", rengaProjectBuildingInfo.Number, rengaProjectBuildingInfoCat));
+            vinnyBuildingObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaBuildingInfoId", rengaProjectBuildingInfo.Id, rengaProjectBuildingInfoCat));
+            vinnyBuildingObject.Parameters.Add(SetUniqueIdParam(rengaProjectBuildingInfo.UniqueIdS));
+            ProcessRengaProperties(rengaProjectBuildingInfo.GetProperties(), vinnyBuildingObject);
+
+            mVinnyModelDef.ObjectsManager.SetObject(vinnyBuildingObject.Id, vinnyBuildingObject);
+
+            return vinnyBuildingObject.Id;
+        }
+    
+
         public VinnyLibDataStructureModel CreateData()
         {
             mVinnyModelDef = new VinnyLibDataStructureModel();
@@ -174,6 +196,12 @@ namespace VinnyRengaAdapter
             Renga.IExportedObject3DCollection rengaExportedObject3DCollection = rengaDataExporter.GetObjects3D();
 
             SetRengaProjectMetadata(rengaProject);
+            //Участок -> Здание -> Всё остальное
+
+            //Участок
+            int vinnyRengaSiteId = SetRengaSite(rengaProject.LandPlotInfo);
+            //Здание
+            int vinnyRengaBuildingId = SetRengaBuilding(rengaProject.BuildingInfo, vinnyRengaSiteId);
 
             Renga.IMaterialManager rebgaNaterialManager = rengaProject.MaterialManager;
 
@@ -183,6 +211,8 @@ namespace VinnyRengaAdapter
             {
                 throw new Exception("VinnyRenga Текущий активный вид отличен от 3D");
             }
+
+            int[] VisibleObjects = view3d.GetVisibleObjects().Cast<int>().ToArray();
 
             //1. Сопоставление ModelObject.Id с IExportedObject3D
             Dictionary<int, Renga.IExportedObject3D> rengaModelObjectId2Geometry = new Dictionary<int, Renga.IExportedObject3D>();
@@ -213,7 +243,10 @@ namespace VinnyRengaAdapter
                     {
                         //Вообще, никогда не должно быть null
                         Renga.ILevel rengaLevel = rengaModelObjectCollection.GetById(rengaObjectOnLevel.LevelId) as Renga.ILevel;
-                        levelExtendedInfo.Add(rengaObjectOnLevel.LevelId, new RengaLevelInfo() { Name = rengaLevel.LevelName, Elevation = rengaLevel.Elevation });
+                        RengaLevelInfo rengaLevelInfo = new RengaLevelInfo() { Name = rengaLevel.LevelName, Elevation = rengaLevel.Elevation, RengaModelObjectId = rengaObjectOnLevel.LevelId };
+                        
+
+                        levelExtendedInfo.Add(rengaObjectOnLevel.LevelId, rengaLevelInfo);
                         level2Objects.Add(levelExtendedInfo[rengaObjectOnLevel.LevelId], new List<Renga.IModelObject>());
                     }
 
@@ -227,13 +260,22 @@ namespace VinnyRengaAdapter
 
             foreach (var levelObjectsCollection in level2Objects)
             {
+                
+                RengaLevelInfo levelInfo = levelObjectsCollection.Key;
+                if (!VisibleObjects.Contains(levelInfo.RengaModelObjectId)) continue;
+
                 VinnyLibDataStructureObject vinnyLevelObject = mVinnyModelDef.ObjectsManager.GetObjectById(mVinnyModelDef.ObjectsManager.CreateObject());
-                vinnyLevelObject.Name = levelObjectsCollection.Key.Name;
-                if (levelObjectsCollection.Key.Elevation != RengaLevelInfo.nonLevelElevation) vinnyLevelObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLevelElevation", levelObjectsCollection.Key.Elevation, RengaParamCategory_Properties, VinnyLibDataStructureParameterDefinitionType.ParamReal));
+                vinnyLevelObject.Name = levelInfo.Name;
+                vinnyLevelObject.ParentId = vinnyRengaBuildingId;
+                ProcessRengaProperties(rengaModelObjectCollection.GetById(levelInfo.RengaModelObjectId).GetProperties(), vinnyLevelObject);
+
+                if (levelInfo.Elevation != RengaLevelInfo.nonLevelElevation) vinnyLevelObject.Parameters.Add(mVinnyModelDef.ParametersManager.CreateParameterValueWithDefs("RengaLevelElevation", levelObjectsCollection.Key.Elevation, RengaParamCategory_Properties, VinnyLibDataStructureParameterDefinitionType.ParamReal));
                 mVinnyModelDef.ObjectsManager.SetObject(vinnyLevelObject.Id, vinnyLevelObject);
 
                 foreach (Renga.IModelObject rengaObject in levelObjectsCollection.Value)
                 {
+                    if (!VisibleObjects.Contains(rengaObject.Id)) continue;
+
                     VinnyLibDataStructureObject vinnyObject = mVinnyModelDef.ObjectsManager.GetObjectById(mVinnyModelDef.ObjectsManager.CreateObject());
                     vinnyObject.Name = rengaObject.Name;
                     vinnyObject.UniqueId = rengaObject.UniqueIdS;
@@ -248,8 +290,6 @@ namespace VinnyRengaAdapter
                         for (int rengaMeshCounter = 0; rengaMeshCounter < rengaObjectGeometry.MeshCount; rengaMeshCounter++)
                         {
                             Renga.IMesh mesh = rengaObjectGeometry.GetMesh(rengaMeshCounter);
-
-                           
 
                             int gridPointsCount = 0;
                             int gridFacesCount = 0;
