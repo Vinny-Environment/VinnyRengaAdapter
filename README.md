@@ -32,3 +32,7 @@ Adapter for Renga
 
 Среда .NET8 -- https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.413-windows-x64-installer
 Среда .NET Framework 4.8 -- https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer
+
+# Использование
+
+Экспортируются только видимые на 3D-виде объекты. Если объект скрыт, то не будет экспортирован. Если скрыт уровень, то все объекты, привязанные к нему, не будут экспортированны.
