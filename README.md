@@ -2,6 +2,8 @@
 
 Adapter for Renga
 
+https://github.com/Vinny-Environment/VinnyRengaAdapter
+
 # Установка
 
 Файлы плагина к Renga расположены в папке `plugins\renga` пакета `VinnyLibConverter`(см. [здесь](https://github.com/Vinny-Environment/VinnyLibConverter#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0))
