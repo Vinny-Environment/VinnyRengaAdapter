@@ -54,7 +54,8 @@ namespace VinnyRengaAdapter
             VinnyLibConverterCommon.ImportExportParameters parameters = new ImportExportParameters();
 
 #if DEBUG
-            parameters = VinnyLibConverterCommon.ImportExportParameters.LoadFromFile(@"E:\Temp\Vinny\rengaTestParams1.XML");
+            if (vinnyWindow.ShowDialog() == true) parameters = vinnyWindow.VinnyParametets;
+            //parameters = VinnyLibConverterCommon.ImportExportParameters.LoadFromFile(@"E:\Temp\Vinny\rengaTestParams1.XML");
 #else
             if (vinnyWindow.ShowDialog() == true) parameters = vinnyWindow.VinnyParametets;
 #endif
